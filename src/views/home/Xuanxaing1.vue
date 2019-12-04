@@ -28,9 +28,9 @@
                     page_start:0
                 }
                 let res = await oneoneone.getDouban(reqData)
-                console.log(res)
+                // console.log(res)
                 this.movieList = res.subjects
-                console.log(this.movieList)
+                // console.log(this.movieList)
             }
         },
         mounted() {
