@@ -59,6 +59,9 @@
             handleXuanxiang2(){
               this.$router.push('/home/xuanxiang2')
             }
+        },
+        mounted() {
+          console.log(location.href)
         }
     }
 </script>
