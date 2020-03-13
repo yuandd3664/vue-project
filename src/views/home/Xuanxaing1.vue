@@ -1,9 +1,9 @@
 <template>
   <div class="movielist">
     <div v-for="item in movieList" :key="item.index" style="display: inline-block;margin:10px">
-      <div>
+      <router-link :to="{path:'/home/detail'}">
         <img :src="item.cover" />
-      </div>
+      </router-link>
       <span>{{item.title+'---'+item.rate}}</span>
     </div>
   </div>

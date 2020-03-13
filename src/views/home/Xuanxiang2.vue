@@ -75,6 +75,52 @@
       <!--<el-table-column  prop="vendorName" label="所属平台" show-overflow-tooltip></el-table-column>-->
       <!-- 此处字段待确认是否需要修改 -->
       <el-table-column prop="gmtVmCreate" label="创建时间" show-overflow-tooltip sortable="custom"></el-table-column>
+      <el-table-column label="操作" width="220px" align="center">
+          <template slot-scope="scope">
+            
+             <div class="action-divider"></div>
+            <el-dropdown @command="dropdownClick" trigger="click" >
+              <span class="el-dropdown-link">
+                更多
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item type="text" @click="dropdownClick({id: scope.row,index:2})">
+              <i class="el-icon-edit"></i> 编辑
+            </el-dropdown-item>
+            <el-dropdown-item type="text" @click="dropdownClick({id: scope.row,index:3})" >
+              <i class="el-icon-delete"></i> 删除
+            </el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row.id,index:1}"> VNC登录</el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row,index:18}">
+                  <i class="el-icon-printer"></i> 创建快照</el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row,index:15}"> 修改配置</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.isShowStart" :command="{id: scope.row,index:23}"> 开机</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.isShowStop" :command="{id: scope.row,index:6}"> 关机</el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row,index:8}">暂停</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.isStopDormant" :command="{id: scope.row,index:9}"> 恢复</el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row,index:10}"> 挂起</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.isResume" :command="{id: scope.row,index:16}"> 激活</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.fipId" :command="{id: scope.row.fipId,index:14}">解绑IP</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.isShowRestart" :command="{id: scope.row,index:7}">重启</el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row,index:11}">挂载网卡</el-dropdown-item>
+                <el-dropdown-item :command="{row: scope.row,index:12}">卸载网卡</el-dropdown-item>
+                <el-dropdown-item  :command="{id: scope.row,index:34}">在线扩容</el-dropdown-item>
+                <el-dropdown-item :disabled="scope.row.status != 'RUNNING'" :command="{id: scope.row,index:17}"> 修改密码</el-dropdown-item>
+                <el-dropdown-item :disabled="scope.row.status == 'PAUSED'" :command="{id: scope.row,index:19,hostId: scope.row.hostId,zone:scope.row.zone}">热迁移</el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row,index:20,name:scope.row.name}">冷迁移</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.affirmModify" :disabled="scope.row.status == 'RESTORING' ||scope.row.status=='SHELVED'" :command="{id: scope.row,index:21}"> 确认修改</el-dropdown-item>
+                <el-dropdown-item v-if="scope.row.affirmModify" :disabled="scope.row.status == 'RESTORING' ||scope.row.status=='SHELVED'" :command="{id: scope.row,index:22}">回滚配置</el-dropdown-item>
+                <el-dropdown-item :disabled="scope.row.status == 'EXCEPTION' || scope.row.status == 'MIGRATEING'||scope.row.status == 'ERROR'||scope.row.status == 'SUSPENDED'||scope.row.status == 'PAUSED'" :command="{id: scope.row,index:30}">挂载云硬盘</el-dropdown-item>
+                <el-dropdown-item :disabled="scope.row.status == 'EXCEPTION' ||scope.row.status == 'MIGRATEING'||scope.row.status == 'ERROR'||scope.row.status == 'SUSPENDED'||scope.row.status == 'PAUSED'" :command="{id: scope.row,index:31}">卸载云硬盘</el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row,index:36}">
+                  <i class="el-icon-refresh"></i> 更改状态</el-dropdown-item>
+                <el-dropdown-item :command="{id: scope.row,index:39}" :disabled="scope.row.tentandId">
+                  <i class="el-icon-tickets"></i> 控制台日志</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown> 
+          </template>
+        </el-table-column>
     </el-table>
     <el-form>
       <el-form-item style="float:right;margin-right:10px">
@@ -107,6 +153,9 @@ export default {
     };
   },
   methods: {
+    dropdownClick () {
+
+    },
     // 详情
     getDetail (data) {
       let bv4, bv6, mv4, mv6 = ''
@@ -177,7 +226,8 @@ export default {
           "systemName": null,
           "zone": "nova",
           "name": "qqq",
-          "status": "RUNNING"
+          "status": "RUNNING",
+          tentandId:true
         },
         {
           "hostName": "localhost.localdomain",
