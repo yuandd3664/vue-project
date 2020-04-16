@@ -5,12 +5,15 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-// import Store from './store'
+import store from './store'
 import Axios from 'axios'  //导入axios
+import table from "./treetable/index"
+import "./mock"
 
 //将axios挂载到原型上
 Vue.prototype.$axios = Axios;
 Vue.use(ElementUI);
+Vue.use(table);
 
 Vue.config.productionTip = false
 
@@ -18,7 +21,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  // Store,
+  store,
   components: { App },
   template: '<App/>'
 })

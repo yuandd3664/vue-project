@@ -22,7 +22,7 @@
                 <template slot="title">
                   <span>上海</span>
                 </template>
-                <el-menu-item index="2-1">黄浦区</el-menu-item>
+                <el-menu-item index="2-1" @click="handleXuanxiang3">黄浦区</el-menu-item>
                 <el-menu-item index="2-2">静安区</el-menu-item>
               </el-submenu>
               <el-menu-item index="3">
@@ -58,6 +58,9 @@
             },
             handleXuanxiang2(){
               this.$router.push('/home/xuanxiang2')
+            },
+            handleXuanxiang3() {
+              this.$router.push('/home/Xuanxiang3')
             }
         },
         mounted() {

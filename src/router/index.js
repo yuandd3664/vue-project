@@ -5,6 +5,7 @@ import Home from '../views/Home'
 import Xuanxaing1 from "../views/home/Xuanxaing1";
 import Xuanxiang2 from "../views/home/Xuanxiang2";
 import Detail from "../views/home/detail";
+import Xuanxiang3 from "../views/home/Xuanxiang3"
 
 Vue.use(Router)
 import VueRouter from "vue-router";
@@ -37,6 +38,11 @@ export default new Router({
           path: 'detail',
           name: Detail,
           component: Detail
+        },
+        {
+          path: 'Xuanxiang3',
+          name: Xuanxiang3,
+          component: Xuanxiang3
         }
       ]
     }

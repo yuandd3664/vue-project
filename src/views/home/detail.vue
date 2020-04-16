@@ -1,7 +1,12 @@
 <template>
   <div>
     <span class="demonstration">默认 click 触发子菜单</span>
-    <el-cascader v-model="value" :options="options" @change="handleChange" :props="{ checkStrictly: true }"></el-cascader>
+    <el-cascader
+      v-model="value"
+      :options="options"
+      @change="handleChange"
+      :props="{ checkStrictly: true }"
+    ></el-cascader>
     <el-dropdown trigger="click">
       <el-button type="primary" split-button>
         更多
@@ -16,17 +21,12 @@
         <el-dropdown-item @click="dropdownClick({index:2})">
           <i class="el-icon-edit"></i>新增子系统
         </el-dropdown-item>
-      </el-dropdown-menu> -->
+      </el-dropdown-menu>-->
     </el-dropdown>
     <el-select v-model="bindDiskData.uuid" placeholder="请选择">
-    <el-option
-      v-for="item in options1"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
-  </el-select>
-  <el-button type="primary" @click="getData">getData</el-button>
+      <el-option v-for="item in options1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+    </el-select>
+    <el-button type="primary" @click="getData">getData</el-button>
   </div>
 </template>
 <script>
@@ -229,32 +229,17 @@ export default {
           label: '组件交互文档'
         }]
       }],
-      options1: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        bindDiskData: {
-          uuid: '',
-          serverUuid: ''
-        }
+      bindDiskData: {
+        uuid: '',
+        serverUuid: ''
+      },
+      options1: []
     }
   },
   methods: {
-    getData() {
+    getData () {
       let objData = {
-        name:'王俊凯',
+        name: '王俊凯',
         age: '21',
         ...this.bindDiskData
       }
@@ -264,7 +249,7 @@ export default {
       console.log(objData)
       // console.log(Object.prototype.toString.call(objData) === '[object Object]', arrData.constructor === Object)
     },
-    handleChange(val) {
+    handleChange (val) {
       console.log(val)
     },
     dropdownClick (command) {
@@ -277,10 +262,10 @@ export default {
       //     break;
       // }
     },
-    handleDelete() {
+    handleDelete () {
       console.log('删除')
     },
-    handleOpen(num){
+    handleOpen (num) {
       switch (num) {
         case 1:
           console.log('one')
@@ -291,13 +276,37 @@ export default {
       }
     }
   },
-  created() {
-    this.value = ['1'],
-    this.bindDiskData.uuid = this.options1[0].label
+  created () {
+    this.value = ['1']
+    this.options1 = [{
+      value: '选项1',
+      label: '黄金糕',
+      ip_address: '1.1.1.1'
+    }, {
+      value: '选项2',
+      label: '双皮奶',
+      ip_address: '2.2.2.2'
+    }, {
+      value: '选项3',
+      label: '蚵仔煎',
+      ip_address: '3.3.3.3'
+    }, {
+      value: '选项4',
+      label: '龙须面',
+      ip_address: '4.4.4.4'
+    }, {
+      value: '选项5',
+      label: '北京烤鸭',
+      ip_address: '5.5.5.5'
+    }]
+    this.bindDiskData.uuid = this.options1[0].ip_address + '/' + this.options1[1].ip_address
   },
-  beforeRouteEnter(to, from, next) {
-    console.log(from.path)
-    window.sessionStorage.setItem('URL_FLAG', from.path)
+  beforeRouteEnter (to, from, next) {
+    if (from.path == '/home/Xuanxiang3') {
+      const path = from.path
+      sessionStorage.setItem('URL_FLAG', path)
+      next()
+    }
     next()
   }
 }
