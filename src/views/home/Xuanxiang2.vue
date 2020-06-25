@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-table
+      ref="multipleTable"
       :data="tableData"
       border
       stripe
@@ -77,7 +78,7 @@
       <el-table-column prop="gmtVmCreate" label="创建时间" show-overflow-tooltip sortable="custom"></el-table-column>
       <el-table-column label="操作" width="220px" align="center">
           <template slot-scope="scope">
-            
+
              <div class="action-divider"></div>
             <el-dropdown @command="dropdownClick" trigger="click" >
               <span class="el-dropdown-link">
@@ -118,23 +119,22 @@
                 <el-dropdown-item :command="{id: scope.row,index:39}" :disabled="scope.row.tentandId">
                   <i class="el-icon-tickets"></i> 控制台日志</el-dropdown-item>
               </el-dropdown-menu>
-            </el-dropdown> 
+            </el-dropdown>
           </template>
         </el-table-column>
     </el-table>
     <el-form>
       <el-form-item style="float:right;margin-right:10px">
-        <span style="color:#409eff">首页</span>
+        <el-button type="success" @click="confirmAdd">确认</el-button>
         <el-pagination
           @size-change="handleSizeChange"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="10"
-          layout="sizes"
-        ></el-pagination>
-        <span style="color:#409eff">
-          下一页
-          <i class="el-icon-arrow-right"></i>
-        </span>
+          @current-change="handleCurrentChange"
+          :current-page="1"
+          :page-sizes="[1, 2, 3, 44]"
+          :page-size="2"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
       </el-form-item>
     </el-form>
   </div>
@@ -142,7 +142,7 @@
 
 <script>
 export default {
-  name: "Xuanxiang2",
+  name: 'Xuanxiang2',
   data () {
     return {
       tableData: [],
@@ -150,15 +150,23 @@ export default {
         page: 1,
         rows: 10
       },
-    };
+      selectList: [],
+      idList: []
+    }
   },
   methods: {
     dropdownClick () {
 
     },
+    refreshId () {
+      this.idList = []
+      this.selectList.forEach(item => {
+        this.idList.push(item.id)
+      })
+    },
     // 详情
     getDetail (data) {
-      let bv4, bv6, mv4, mv6 = ''
+      let bv4, bv6, mv4, mv6
       if (data.bizAddr) {
         bv4 = data.bizAddr.addressV4[0]
         bv6 = data.bizAddr.addressV6[0]
@@ -180,12 +188,50 @@ export default {
     },
     // 单选
     handleSelectItem (selection, row) {
+      this.refreshId()
+      if (this.idList.indexOf(row.id) > -1) {
+        for (let j = 0; j < this.selectList.length; j++) {
+          let item = this.selectList[j]
+          if (item.id === row.id) {
+            item.role = []
+            this.selectList.splice(j, 1)
+            break
+          }
+        }
+      } else {
+        // row.role = ['admin']
+        this.selectList.push(row)
+      }
+      console.log(this.selectList)
     },
     // 全选
     handleSelectAll (selection) {
+      this.refreshId()
+      if (selection.length) { // 全选情况下
+        this.tableData.forEach(item => {
+          if (this.idList.indexOf(item.id) == -1) {
+            // if (item.role.length == 0) item.role = ['admin']
+            this.selectList.push(item)
+          }
+        })
+      } else { // 全不选情况下
+        this.tableData.forEach(item => {
+          if (this.idList.indexOf(item.id) > -1) {
+            for (let j = 0; j < this.selectList.length; j++) {
+              let row = this.selectList[j]
+              if (item.id === row.id) {
+                // item.role = []
+                this.selectList.splice(j, 1)
+                break
+              }
+            }
+          }
+        })
+      }
+      console.log(this.selectList)
     },
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      console.log(`每页 ${val} 条`)
     },
     rowStyle () {
       return {
@@ -196,188 +242,205 @@ export default {
     getRowKey (row) {
       return row.id
     },
+    confirmAdd () {
+      let ids = this.selectList.map(item => item.id)
+      console.log(ids)
+    }
   },
   created () {
     let data = {
-      "success": true,
-      "message": "查询成功",
-      "errorMsg": null,
-      "data": [
+      'success': true,
+      'message': '查询成功',
+      'errorMsg': null,
+      total: 5,
+      'data': [
         {
-          "hostName": "localhost.localdomain",
-          "flavorName": "1-1-1",
-          "bizAddr": {
-            "addressV4": [
-              "11.0.0.25"
+          'hostName': 'localhost.localdomain',
+          'flavorName': '1-1-1',
+          'bizAddr': {
+            'addressV4': [
+              '11.0.0.25'
             ],
-            "addressV6": [
-              "1111::19"
+            'addressV6': [
+              '1111::19'
             ]
           },
-          "imageName": null,
-          "memory": 1024,
-          "subSystemName": null,
-          "gmtVmCreate": "2020-02-10 18:03:38",
-          "instanceType": "snapshot",
-          "cpu": 1,
-          "disk": 1,
-          "instanceId": "45c247ca-3d02-4a65-a19b-a43893d19169",
-          "taskState": null,
-          "systemName": null,
-          "zone": "nova",
-          "name": "qqq",
-          "status": "RUNNING",
-          tentandId:true
+          'imageName': null,
+          'memory': 1024,
+          'subSystemName': null,
+          'gmtVmCreate': '2020-02-10 18:03:38',
+          'instanceType': 'snapshot',
+          'cpu': 1,
+          'disk': 1,
+          'id': '45c247ca-3d02-4a65-a19b-a43893d19169',
+          'taskState': null,
+          'systemName': null,
+          'zone': 'nova',
+          'name': 'qqq',
+          'status': 'RUNNING',
+          tentandId: true
         },
         {
-          "hostName": "localhost.localdomain",
-          "flavorName": "m1.tiny",
-          "bizAddr": {
-            "addressV4": [
-              "11.0.0.25"
+          'hostName': 'localhost.localdomain',
+          'flavorName': 'm1.tiny',
+          'bizAddr': {
+            'addressV4': [
+              '11.0.0.25'
             ],
-            "addressV6": [
-              "1111::19"
+            'addressV6': [
+              '1111::19'
             ]
           },
-          "imageName": "cirros",
-          "memory": 512,
-          "subSystemName": null,
-          "gmtVmCreate": "2020-02-05 23:50:35",
-          "instanceType": "image",
-          "cpu": 1,
-          "mgmAddr": {
-            "addressV4": [
-              "22.2.2.25"
+          'imageName': 'cirros',
+          'memory': 512,
+          'subSystemName': null,
+          'gmtVmCreate': '2020-02-05 23:50:35',
+          'instanceType': 'image',
+          'cpu': 1,
+          'mgmAddr': {
+            'addressV4': [
+              '22.2.2.25'
             ],
-            "addressV6": [
-              "2222::15"
+            'addressV6': [
+              '2222::15'
             ]
           },
-          "disk": 1,
-          "instanceId": "69bfc1d3-bd9a-41cb-a55e-9ccd149d81c7",
-          "taskState": null,
-          "systemName": null,
-          "zone": "nova",
-          "name": "ddd",
-          "status": "STOPPED"
+          'disk': 1,
+          'id': '69bfc1d3-bd9a-41cb-a55e-9ccd149d81c7',
+          'taskState': null,
+          'systemName': null,
+          'zone': 'nova',
+          'name': 'ddd',
+          'status': 'STOPPED'
         },
         {
-          "hostName": "localhost.localdomain",
-          "flavorName": "1-1-1",
-          "bizAddr": {
-            "addressV4": [
-              "11.0.0.13"
+          'hostName': 'localhost.localdomain',
+          'flavorName': '1-1-1',
+          'bizAddr': {
+            'addressV4': [
+              '11.0.0.13'
             ],
-            "addressV6": [
-              "1111::d"
+            'addressV6': [
+              '1111::d'
             ]
           },
-          "imageName": null,
-          "memory": 1024,
-          "subSystemName": null,
-          "gmtVmCreate": "2020-02-05 19:50:55",
-          "instanceType": "snapshot",
-          "cpu": 1,
-          "mgmAddr": {
-            "addressV4": [
-              "22.2.2.13"
+          'imageName': null,
+          'memory': 1024,
+          'subSystemName': null,
+          'gmtVmCreate': '2020-02-05 19:50:55',
+          'instanceType': 'snapshot',
+          'cpu': 1,
+          'mgmAddr': {
+            'addressV4': [
+              '22.2.2.13'
             ],
-            "addressV6": [
-              "2222::10"
+            'addressV6': [
+              '2222::10'
             ]
           },
-          "disk": 1,
-          "instanceId": "2f14c318-30f6-4693-ad92-fb22abb4961a",
-          "taskState": null,
-          "systemName": null,
-          "zone": "nova",
-          "name": "aaaaaaaaa",
-          "status": "RUNNING"
+          'disk': 1,
+          'id': '2f14c318-30f6-4693-ad92-fb22abb4961a',
+          'taskState': null,
+          'systemName': null,
+          'zone': 'nova',
+          'name': 'aaaaaaaaa',
+          'status': 'RUNNING',
+          tentandId: false
         },
         {
-          "hostName": "localhost.localdomain",
-          "flavorName": "m1.tiny",
-          "imageName": null,
-          "memory": 512,
-          "bizAddr": {},
-          "subSystemName": null,
-          "gmtVmCreate": "2020-01-21 23:41:20",
-          "instanceType": "snapshot",
-          "cpu": 1,
-          "mgmAddr": {
-            "addressV4": [
-              "22.2.2.23"
+          'hostName': 'localhost.localdomain',
+          'flavorName': 'm1.tiny',
+          'imageName': null,
+          'memory': 512,
+          'bizAddr': {},
+          'subSystemName': null,
+          'gmtVmCreate': '2020-01-21 23:41:20',
+          'instanceType': 'snapshot',
+          'cpu': 1,
+          'mgmAddr': {
+            'addressV4': [
+              '22.2.2.23'
             ],
-            "addressV6": [
-              "2222::13"
+            'addressV6': [
+              '2222::13'
             ]
           },
-          "disk": 1,
-          "instanceId": "a058c881-1b8a-4a6e-a3b6-cc94623cfb01",
-          "taskState": null,
-          "systemName": null,
-          "zone": "nova",
-          "name": "aaa",
-          "status": "STOPPED"
+          'disk': 1,
+          'id': 'a058c881-1b8a-4a6e-a3b6-cc94623cfb01',
+          'taskState': null,
+          'systemName': null,
+          'zone': 'nova',
+          'name': 'aaa',
+          'status': 'STOPPED'
         },
         {
-          "hostName": "localhost.localdomain",
-          "flavorName": "m1.tiny",
-          "bizAddr": {
-            "addressV4": [
-              "11.0.0.18"
+          'hostName': 'localhost.localdomain',
+          'flavorName': 'm1.tiny',
+          'bizAddr': {
+            'addressV4': [
+              '11.0.0.18'
             ],
-            "addressV6": [
-              "1111::10"
+            'addressV6': [
+              '1111::10'
             ]
           },
-          "imageName": null,
-          "memory": 512,
-          "subSystemName": null,
-          "gmtVmCreate": "2020-01-15 21:52:34",
-          "instanceType": "snapshot",
-          "cpu": 1,
-          "mgmAddr": {
+          'imageName': null,
+          'memory': 512,
+          'subSystemName': null,
+          'gmtVmCreate': '2020-01-15 21:52:34',
+          'instanceType': 'snapshot',
+          'cpu': 1,
+          'mgmAddr': {
           },
-          "disk": 1,
-          "instanceId": "7827ae9e-3c98-42a0-b033-a2780368a131",
-          "taskState": null,
-          "systemName": null,
-          "zone": "nova",
-          "name": "ccccc",
-          "status": "STOPPED"
+          'disk': 1,
+          'id': '7827ae9e-3c98-42a0-b033-a2780368a131',
+          'taskState': null,
+          'systemName': null,
+          'zone': 'nova',
+          'name': 'ccccc',
+          'status': 'STOPPED',
+          tentandId: false
         }
       ],
-      "status": null,
-      "solution": null,
-      "failed": false
+      'status': null,
+      'solution': null,
+      'failed': false
     }
     this.tableData = data.data
-    this.tableData.forEach((data, index) => {
-      // 业务网IP和管理网IP
-      let bizV4Arr = []
-      let bizV6Arr = []
-      let mamV4Arr = []
-      let mamV6Arr = []
-      if (data.bizAddr && Object.keys(data.bizAddr).length !== 0) {
-        data.bizAddr.addressV4.forEach(item => {
-          bizV4Arr.push(item)
-        })
-        data.bizAddr.addressV6.forEach(item => {
-          bizV6Arr.push(item)
-        })
-      }
-      if (data.mgmAddr && Object.keys(data.mgmAddr).length !== 0) {
-        data.mgmAddr.addressV4.forEach(item => {
-          mamV4Arr.push(item)
-        })
-        data.mgmAddr.addressV6.forEach(item => {
-          mamV6Arr.push(item)
-        })
-      }
-      data.biznetIps = bizV4Arr.concat(bizV6Arr)
-      data.managerIps = mamV4Arr.concat(mamV6Arr)
+    this.total = data.total
+    this.$nextTick(() => {
+      this.tableData.forEach((data, index) => {
+        // 业务网IP和管理网IP
+        let bizV4Arr = []
+        let bizV6Arr = []
+        let mamV4Arr = []
+        let mamV6Arr = []
+        if (data.bizAddr && Object.keys(data.bizAddr).length !== 0) {
+          data.bizAddr.addressV4.forEach(item => {
+            bizV4Arr.push(item)
+          })
+          data.bizAddr.addressV6.forEach(item => {
+            bizV6Arr.push(item)
+          })
+        }
+        if (data.mgmAddr && Object.keys(data.mgmAddr).length !== 0) {
+          data.mgmAddr.addressV4.forEach(item => {
+            mamV4Arr.push(item)
+          })
+          data.mgmAddr.addressV6.forEach(item => {
+            mamV6Arr.push(item)
+          })
+        }
+        data.biznetIps = bizV4Arr.concat(bizV6Arr)
+        data.managerIps = mamV4Arr.concat(mamV6Arr)
+        this.idList.push(data.id)
+        // this.selectList.push(data)
+        if (!data.tentandId) {
+          this.$refs.multipleTable.toggleRowSelection(data, true)
+          this.selectList.push(data)
+        }
+      })
+      console.log(this.selectList)
     })
   }
 }
