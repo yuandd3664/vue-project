@@ -9,6 +9,8 @@ import store from './store'
 import Axios from 'axios' // 导入axios
 import table from './treetable/index'
 import './mock'
+// import './styles/index.scss'
+// import './styles/index.scss'
 
 // 将axios挂载到原型上
 Vue.prototype.$axios = Axios

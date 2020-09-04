@@ -1,11 +1,31 @@
 <template>
   <div>
-    <el-form :inline="true">
+    <el-tabs
+      v-model="activeName"
+      @tab-click="handleClick"
+    >
+      <el-tab-pane
+        label="用户管理"
+        name="first"
+      ><el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" @click="handleCreate('add1')" :disabled="disabledFlag">新增</el-button>
-        <el-button type="primary" @click="remove()">删除</el-button>
-        <el-button type="primary" @click="handleCreate('edit')">编辑</el-button>
-        <el-button @click="getUser" type="success">获取王俊凯</el-button>
+        <el-button
+          type="primary"
+          @click="handleCreate('add1')"
+          :disabled="disabledFlag"
+        >新增</el-button>
+        <el-button
+          type="primary"
+          @click="remove()"
+        >删除</el-button>
+        <el-button
+          type="primary"
+          @click="handleCreate('edit')"
+        >编辑</el-button>
+        <el-button
+          @click="getUser"
+          type="success"
+        >获取王俊凯</el-button>
         <el-dropdown @command="dropdownClick">
           <el-button type="primary">
             更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
@@ -35,40 +55,108 @@
       <el-table-column prop="name" label="姓名" width="120"></el-table-column>
       <el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column>
     </el-table>-->
-    <el-table :data="list" ref="multipleTable1">
-        <el-table-column type="selection">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="用户工号" prop="name" sortable="custom">
-          <template slot-scope="scope">
-            <span class="detail-href" @click="getDetail(scope.row)">{{scope.row.name}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="用户名" sortable="custom" prop="username">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="所属域" prop="opUser[0].domain.domainName">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="所属主项目" prop="opUser[0].project.projectName">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="所属部门" prop="departmentName" sortable="custom">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="所属室" prop="sectionName" sortable="custom">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="邮箱" prop="opUser[0].email" sortable="custom">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="固定电话" prop="phone" sortable="custom">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="移动电话" prop="mobile" sortable="custom">
-        </el-table-column>
-        <el-table-column show-overflow-tooltip label="操作" width="160px">
-          <template slot-scope="scope">
-            <el-button type="text" @click="handleEdit(scope.row)">
-              <i class="el-icon-edit"></i> 编辑</el-button>
-            <div class="action-divider"></div>
-            <el-button type="text" @click="handleDelete(scope.row)">
-               删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+    <el-table
+      :data="list"
+      ref="multipleTable1"
+    >
+      <el-table-column type="selection">
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="用户工号"
+        prop="name"
+        sortable="custom"
+      >
+        <template slot-scope="scope">
+          <span
+            class="detail-href"
+            @click="getDetail(scope.row)"
+          >{{scope.row.name}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="用户名"
+        sortable="custom"
+        prop="username"
+      >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="所属域"
+        prop="opUser[0].domain.domainName"
+      >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="所属主项目"
+        prop="opUser[0].project.projectName"
+      >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="所属部门"
+        prop="departmentName"
+        sortable="custom"
+      >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="所属室"
+        prop="sectionName"
+        sortable="custom"
+      >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="邮箱"
+        prop="opUser[0].email"
+        sortable="custom"
+      >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="固定电话"
+        prop="phone"
+        sortable="custom"
+      >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="移动电话"
+        prop="mobile"
+        sortable="custom"
+      >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="操作"
+        width="160px"
+      >
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            @click="handleEdit(scope.row)"
+          >
+            <i class="el-icon-edit"></i> 编辑</el-button>
+          <div class="action-divider"></div>
+          <el-button
+            type="text"
+            @click="handleDelete(scope.row)"
+          >
+            删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table></el-tab-pane>
+      <el-tab-pane
+        label="配置管理"
+        name="second"
+      >配置管理
+      <div ref="htlstr" v-html="htmlData"></div>
+      <iframe src="./static/index.html"></iframe>
+      </el-tab-pane>
+    </el-tabs>
+
   </div>
 </template>
 <script>
@@ -76,6 +164,8 @@ export default {
   name: 'Xuanxiang3',
   data () {
     return {
+      htmlData: '',
+      activeName: 'first',
       list: [],
       disabledFlag: true,
       scope: {
@@ -129,15 +219,31 @@ export default {
         getData: this.getList
       },
       dataSource: '',
-      listname: 'dictionary',
+      listname: 'd ic tionary'
     }
   },
   methods: {
-    getUser() {
-      this.$axios.post('/aaa/jkjji/list').then((res)=>{
+    handleClick (tab) {
+      console.log(tab)
+      switch (tab) {
+        case 'first':
+          this.getList()
+          break
+        case 'second':
+          // this.$nextTick(() => {
+
+          // })
+          window.open(`/index.html`)
+          break
+        default:
+          break
+      }
+    },
+    getUser () {
+      this.$axios.post('/aaa/jkjji/list').then((res) => {
         console.log(res.data)
       })
-      this.$axios.get('/ff/api/task/detail').then((res)=>{
+      this.$axios.get('/ff/api/task/detail').then((res) => {
         console.log(JSON.parse(res.data.data.graph))
         // console.log(res.data.data)
       })
@@ -153,7 +259,7 @@ export default {
       const project = new Date().getTime()
       this.$store.state.project = project
     },
-    getDetail () {},
+    getDetail () { },
     handleCreate () {
 
     },
@@ -183,60 +289,24 @@ export default {
       console.log(selection.length)
       console.log(this.scope.row)
     },
-    getList () {
-      let data = {
-        data: [
-          {
-            name: '机房类型',
-            value: 'room'
-          },
-          {
-            name: '所属环境',
-            value: 'environment'
-          },
-          {
-            name: '主机状态',
-            value: 'hoststatus'
-          }
-        ]
-      }
-      this.dataSource = data.data
-    },
     getData () {
-      let data = { 
-        "success": true, 
-        "message": "查询用户成功", 
-        "errorMsg": null, 
-        "data": { 
-          "total": 0, 
-          "pages": 1, 
-          "page": 1, 
-          "rows": [
-            {
-              name: 'aaa',
-              username: 'aaaw'
-            }
-          ] 
-        }, 
-        "status": null, 
-        "solution": null, 
-        "failed": false 
-      }
-      this.list = data.data.rows
-    }
+
+    },
+    getList () {}
   },
   created () {
-    this.getList();
-    this.getData();
+    this.getList()
+    this.getData()
   },
-  computed : {
-    project() {
+
+  computed: {
+    project () {
       return this.$store.state.project
     }
   },
   watch: {
-    project(n ,o) {
-      console.log(n,o)
+    project (n, o) {
+      console.log(n, o)
       this.getUser()
     }
   }

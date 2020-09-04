@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            background: pink;
+        }
+        #div {
+            width: 300px;
+            height: 300px;
+            background: saddlebrown;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+
+    </div>
+    <div id="div">
+
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script>
+        $('#box').click(function() {
+            console.log('this is box')
+        })
+        document.getElementById('div').onclick = function(){
+            console.log('this is div')
+        }
+    </script>
+
+</body>
+</html>

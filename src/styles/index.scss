@@ -1,0 +1,140 @@
+
+@import './reset.scss';
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+åß
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+// main-container global csss
+.app-container {
+  margin: 15px;
+  background-color: #fff;
+  height: 100%;
+  padding: 10px;
+
+  .pagination {
+    float: right;
+    margin: 20px 0 20px 0;
+  }
+}
+
+// search
+.search {
+  // width: 300px;
+  // float: right;
+  margin-right: 0px!important;
+  // .el-form--inline /deep/ .el-form-item {
+  //   margin-right: 0;
+  // }
+  .el-form-item__content .el-input__inner {
+    width: 300px;
+    height: 34px!important;
+    line-height: 34px!important;
+    -webkit-appearance: none;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    outline: none;
+    // padding: 0 15px;
+    padding: 0 35px 0 15px;
+    -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    // width: 100%;
+  }
+
+  .el-input__suffix {
+    .el-input__icon {
+      font-weight: 700;
+      color: #616f7e;
+      height: 100%;
+      width: 25px;
+      text-align: center;
+      -webkit-transition: all .3s;
+      transition: all .3s;
+      line-height: 36px;
+    }
+  }
+  .el-input__prefix{
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    left: -10%;
+    z-index: 20;
+  }
+
+  .el-drawer__container .el-drawer__open /deep/.el-drawer__header {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #72767b;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 2px!important;
+    padding: 20px;
+    padding-bottom: 0;
+  }
+}
+/deep/.drawer-height {
+  overflow-y: auto !important;
+}

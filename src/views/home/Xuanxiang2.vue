@@ -155,6 +155,8 @@ export default {
     }
   },
   methods: {
+    handleSizeChange () {},
+    handleCurrentChange () {},
     dropdownClick () {
 
     },
@@ -272,7 +274,7 @@ export default {
           'instanceType': 'snapshot',
           'cpu': 1,
           'disk': 1,
-          'id': '45c247ca-3d02-4a65-a19b-a43893d19169',
+          'id': 1,
           'taskState': null,
           'systemName': null,
           'zone': 'nova',
@@ -306,7 +308,7 @@ export default {
             ]
           },
           'disk': 1,
-          'id': '69bfc1d3-bd9a-41cb-a55e-9ccd149d81c7',
+          'id': 2,
           'taskState': null,
           'systemName': null,
           'zone': 'nova',
@@ -339,7 +341,7 @@ export default {
             ]
           },
           'disk': 1,
-          'id': '2f14c318-30f6-4693-ad92-fb22abb4961a',
+          'id': 3,
           'taskState': null,
           'systemName': null,
           'zone': 'nova',
@@ -366,12 +368,13 @@ export default {
             ]
           },
           'disk': 1,
-          'id': 'a058c881-1b8a-4a6e-a3b6-cc94623cfb01',
+          'id': 4,
           'taskState': null,
           'systemName': null,
           'zone': 'nova',
           'name': 'aaa',
-          'status': 'STOPPED'
+          'status': 'STOPPED',
+          tentandId: true
         },
         {
           'hostName': 'localhost.localdomain',
@@ -393,7 +396,35 @@ export default {
           'mgmAddr': {
           },
           'disk': 1,
-          'id': '7827ae9e-3c98-42a0-b033-a2780368a131',
+          'id': 5,
+          'taskState': null,
+          'systemName': null,
+          'zone': 'nova',
+          'name': 'ccccc',
+          'status': 'STOPPED',
+          tentandId: false
+        },
+        {
+          'hostName': 'localhost.localdomain',
+          'flavorName': 'm1.tiny',
+          'bizAddr': {
+            'addressV4': [
+              '11.0.0.18'
+            ],
+            'addressV6': [
+              '1111::10'
+            ]
+          },
+          'imageName': null,
+          'memory': 512,
+          'subSystemName': null,
+          'gmtVmCreate': '2020-01-15 21:52:34',
+          'instanceType': 'snapshot',
+          'cpu': 1,
+          'mgmAddr': {
+          },
+          'disk': 1,
+          'id': 6,
           'taskState': null,
           'systemName': null,
           'zone': 'nova',
